@@ -1,13 +1,24 @@
 body {
     font-family: Arial, sans-serif;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
     height: 100vh;
     margin: 0;
     background-color: #f4f4f9;
 }
 
-h1 {
+.top-right {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    background-color: #faf8f5;
+    padding: 50px;
+    border: 10px;
+}
+
+h1, p {
     color: #333;
 }
+
