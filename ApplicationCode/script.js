@@ -23,10 +23,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('timezone').textContent = timeZoneString;
     }
 
-    // Update time immediately and set interval to update every second
-    updateTime();
-    setInterval(updateTime, 1000);
-
     // Fetch weather data
     function fetchWeather() {
         // Use navigator.geolocation to get user's location
@@ -46,24 +42,41 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    function updateWeatherIcon(condition) {
-        const iconElement = document.getElementById('weather-icon');
-        iconElement.className = ''; // Clear existing classes
-        switch(condition) {
-            case 'Sunny':
-                iconElement.classList.add('fas', 'fa-sun');
-                break;
-            case 'Rainy':
-                iconElement.classList.add('fas', 'fa-cloud-rain');
-                break;
-            case 'Snow':
-                iconElement.classList.add('fas', 'fa-snowflake');
-                break;
-            // Add more cases as needed
-        }
-    }    
+    navigator.geolocation.getCurrentPosition(function(position) {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+    
+        fetchNearestPlaces(latitude, longitude);
+    });
 
+    function fetchNearestPlaces(lat, lon) {
+        // Example using Google Places API (you need to replace 'YOUR_API_KEY' with your actual Google API key)
+        var YOUR_API_KEY = 'AIzaSyB685j0ggI7R-1pRn7UdOLc9JpRJjMuvBw';
+        const placesUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lon}&radius=10000&type=airport&key=${YOUR_API_KEY}`;
+    
+        fetch(placesUrl)
+            .then(response => response.json())
+            .then(data => {
+                const airportName = data.results[0]?.name ?? 'Not found';
+                document.getElementById('airport-name').textContent = airportName;
+            });
+    
+        // Repeat for railway station with type=transit_station
+        const stationUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lon}&radius=10000&type=train_station&key=${YOUR_API_KEY}`;
+    
+        fetch(stationUrl)
+            .then(response => response.json())
+            .then(data => {
+                const stationName = data.results[0]?.name ?? 'Not found';
+                document.getElementById('station-name').textContent = stationName;
+            });
+    }
+
+    // Update time immediately and set interval to update every second
+    updateTime();
+    setInterval(updateTime, 1000);
+    // Get current temperature
     fetchWeather();
-    updateWeatherIcon();
+
 });
 
