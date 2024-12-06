@@ -10,12 +10,14 @@ body {
 }
 
 .top-right {
-    position: absolute;
-    top: 20px;
-    right: 40px;
-    background-color: #faf8f5;
-    padding: 10px;
-    border: 10px;
+    position: fixed; /* Fixed position to keep it at the specified location */
+    top: 10px; /* Slightly away from the top edge */
+    right: 10px; /* Slightly away from the right edge */
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+    padding: 10px; /* Padding around the text */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow to make it appear above the page */
+    z-index: 1000; /* High z-index to ensure it's above other content */
 }
 
 p {
@@ -31,3 +33,12 @@ h1 {
     text-align: center;
 }
 
+#weather-info {
+    display: flex;
+    align-items: center; /* Center the icon and text vertically */
+}
+
+#weather-icon {
+    margin-right: 5px; /* Space between icon and temperature */
+    color: #f39c12; /* Color of the icon, change as needed */
+}

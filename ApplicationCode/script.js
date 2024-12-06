@@ -46,6 +46,24 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    function updateWeatherIcon(condition) {
+        const iconElement = document.getElementById('weather-icon');
+        iconElement.className = ''; // Clear existing classes
+        switch(condition) {
+            case 'Sunny':
+                iconElement.classList.add('fas', 'fa-sun');
+                break;
+            case 'Rainy':
+                iconElement.classList.add('fas', 'fa-cloud-rain');
+                break;
+            case 'Snow':
+                iconElement.classList.add('fas', 'fa-snowflake');
+                break;
+            // Add more cases as needed
+        }
+    }
+
     fetchWeather();
+    updateWeatherIcon();
 });
 
