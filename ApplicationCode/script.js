@@ -31,10 +31,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function fetchWeather() {
         // Use navigator.geolocation to get user's location
         navigator.geolocation.getCurrentPosition(function(position) {
-            //var lat = position.coords.latitude;
-            //var lon = position.coords.longitude;
-	    var lat = 28.49;
-	    var lon = 77.49
+            var lat = position.coords.latitude;
+            var lon = position.coords.longitude;
             var apiKey = 'b94bc5901312bf5ad4dbeed09ce9cb8b';
             var weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
 
