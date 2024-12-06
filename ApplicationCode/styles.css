@@ -30,13 +30,3 @@ h1 {
     font-style: normal;
     text-align: center;
 }
-
-#weather-info {
-    display: flex;
-    align-items: center; /* Center the icon and text vertically */
-}
-
-#weather-icon {
-    margin-right: 5px; /* Space between icon and temperature */
-    color: #f39c12; /* Color of the icon, change as needed */
-}
