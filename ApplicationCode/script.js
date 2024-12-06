@@ -3,9 +3,9 @@ document.addEventListener('DOMContentLoaded', function() {
     var hour = today.getHours();
     var greeting;
 
-    if (hour > 18) {
+    if (hour >= 18) {
         greeting = "Good Evening!";
-    } else if (hour > 12) {
+    } else if (hour >= 12) {
         greeting = "Good Afternoon!";
     } else {
         greeting = "Good Morning!";
