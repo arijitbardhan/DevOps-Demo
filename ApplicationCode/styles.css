@@ -9,13 +9,7 @@ body {
     background-color: #f4f4f9;
 }
 
-.top-right {
-    /* position: absolute;
-    top: 20px;
-    right: 40px;
-    background-color: #faf8f5;
-    padding: 10px;
-    border: 10px; */
+#top-right {
 
     position: fixed; /* Fixed position to keep it at the specified location */
     top: 10px; /* Slightly away from the top edge */
@@ -31,6 +25,18 @@ p {
     color: #333;
 }
 
+#location {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+    color: #2980b9;
+}
+
+#temperature {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 18px;
+    color: #c0392b;
+}
+
 h1 {
     font-family: 'Poppins', sans-serif; 
     color: #2c3e50; /* Dark blue color for contrast */
@@ -38,4 +44,20 @@ h1 {
     font-weight: 600;
     font-style: normal;
     text-align: center;
+}
+
+/* Responsive adjustments for mobile phones */
+@media (max-width: 480px) {
+    #top-right {
+        position: fixed; /* Optional: Change position */
+        width: 100%; /* Full width */
+        top: 10;
+        right: 10;
+        margin-bottom: 10px; /* Add space below the div */
+        text-align: center; /* Center the content */
+    }
+
+    h1 {
+	    font-size: 24px;
+	    font-weight: 600;
 }
