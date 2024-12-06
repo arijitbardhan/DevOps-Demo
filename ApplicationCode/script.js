@@ -61,17 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 break;
             // Add more cases as needed
         }
-    }
-
-    document.getElementById('sidebarToggle').addEventListener('click', function() {
-        var sidebar = document.getElementById('sidebar');
-        if (sidebar.style.left === '-250px') {
-            sidebar.style.left = '0';
-        } else {
-            sidebar.style.left = '-250px';
-        }
-    });
-    
+    }    
 
     fetchWeather();
     updateWeatherIcon();
