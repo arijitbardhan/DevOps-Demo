@@ -1,2 +1,2 @@
-./ApplicationCode/*.zip
-./ApplicationCode/*.war
+*.zip
+*.war
