@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function fetchNearestPlaces(lat, lon) {
         // Example using Google Places API (you need to replace 'YOUR_API_KEY' with your actual Google API key)
         var YOUR_API_KEY = 'AIzaSyB685j0ggI7R-1pRn7UdOLc9JpRJjMuvBw';
-        const placesUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lon}&radius=10000&type=airport&key=${YOUR_API_KEY}&callback=initialize&no-cors=true`;
+        const placesUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lon}&radius=100000&type=airport&key=${YOUR_API_KEY}&no-cors=true`;
     
         fetch(placesUrl)
             .then(response => response.json())
@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     
         // Repeat for railway station with type=transit_station
-        const stationUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lon}&radius=10000&type=train_station&key=${YOUR_API_KEY}&callback=initialize&no-cors=true`;
+        const stationUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lon}&radius=100000&type=train_station&key=${YOUR_API_KEY}&callback=initialize&no-cors=true`;
     
         fetch(stationUrl)
             .then(response => response.json())
