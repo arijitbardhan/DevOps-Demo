@@ -29,7 +29,7 @@ install_tomcat() {
 
     # Fetch the latest version of Tomcat from the Apache website
     latest_version=$(curl -s https://tomcat.apache.org/download-90.cgi | grep -o 'apache-tomcat-[0-9]*.[0-9]*.[0-9]*.tar.gz' | head -1)
-    version_number=$(echo $latest | grep -oP 'apache-tomcat-\K[0-9]+\.[0-9]+\.[0-9]+')
+    version_number=$(echo $latest_version | grep -oP 'apache-tomcat-\K[0-9]+\.[0-9]+\.[0-9]+')
     # Download the latest version
     wget https://downloads.apache.org/tomcat/tomcat-9/v$version_number/bin/$latest_version -O /tmp/tomcat.tar.gz
 
