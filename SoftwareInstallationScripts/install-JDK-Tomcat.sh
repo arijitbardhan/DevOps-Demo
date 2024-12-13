@@ -10,7 +10,7 @@ print_header() {
 # Function to install Java
 install_java() {
     print_header "Checking and Installing Java"
-    if type -p java; then
+    if [ -n `which java` ]; then
         echo "Java is already installed."
     else
         echo "Java is not installed. Installing Java..."
@@ -28,10 +28,10 @@ install_tomcat() {
     sudo mkdir -p /opt/tomcat
 
     # Fetch the latest version of Tomcat from the Apache website
-    latest=$(curl -s https://tomcat.apache.org/download-90.cgi | grep -o 'apache-tomcat-[0-9]*.[0-9]*.[0-9]*.tar.gz' | head -1)
-
+    latest_version=$(curl -s https://tomcat.apache.org/download-90.cgi | grep -o 'apache-tomcat-[0-9]*.[0-9]*.[0-9]*.tar.gz' | head -1)
+    version_number=$(echo $latest | grep -oP 'apache-tomcat-\K[0-9]+\.[0-9]+\.[0-9]+')
     # Download the latest version
-    wget https://downloads.apache.org/tomcat/tomcat-9/$latest -O /tmp/tomcat.tar.gz
+    wget https://downloads.apache.org/tomcat/tomcat-9/v$version_number/bin/$latest_version -O /tmp/tomcat.tar.gz
 
     # Extract the archive
     sudo tar -xzf /tmp/tomcat.tar.gz -C /opt/tomcat --strip-components=1
