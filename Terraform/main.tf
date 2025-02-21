@@ -79,6 +79,5 @@ resource "aws_network_interface" "app_server_nic" {
 }
 
 output "AppServer_Instance_ARN" {
-  instance_arn = aws_instance.app_server_instance.arn
-  
+  value = aws_instance.app_server_instance.arn
 }
