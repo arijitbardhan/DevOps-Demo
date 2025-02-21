@@ -57,7 +57,7 @@ resource "aws_instance" "app_server_instance" {
   }
 
   network_interface {
-    delete_on_termination = true
+    #delete_on_termination = true
     device_index          = 0
     network_interface_id  = aws_network_interface.app_server_nic.id
   }
