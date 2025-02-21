@@ -90,7 +90,7 @@ resource "aws_subnet" "app_server_subnet" {
 
 resource "aws_network_interface" "app_server_nic" {
   subnet_id   = aws_subnet.app_server_subnet.id
-  private_ips = ["10.10.0.100"]
+  private_ips = ["10.0.0.100"]
   
   tags = {
     Name = "AppServer_NetworkInterfaceCard"
