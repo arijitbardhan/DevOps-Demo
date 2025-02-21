@@ -44,7 +44,7 @@ resource "aws_instance" "app_server_instance" {
     delete_on_termination = true
     encrypted             = true
     volume_size           = 8
-    volume_type           = gp2
+    volume_type           = "gp2"
   }
 
   network_interface {
@@ -52,6 +52,14 @@ resource "aws_instance" "app_server_instance" {
   }
 }
 
+resource "aws_ebs_volume" "Terraform_Volume" {
+  availability_zone = "ap-south-1a" 
+  size              = 8            # Specify the size of the volume in GiB
+
+  tags = {
+    Name = "AppServer_Instance_EBS"
+  }
+}
 resource "aws_vpc" "app_server_vpc" {
   cidr_block = "10.0.0.0/16"
   tags = {
