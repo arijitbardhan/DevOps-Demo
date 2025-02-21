@@ -40,7 +40,7 @@ resource "aws_key_pair" "app_server_instance_key" {
 resource "aws_instance" "app_server_instance" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t2.micro"
-  subnet_id     = aws_subnet.app_server_subnet.id
+  #subnet_id     = aws_subnet.app_server_subnet.id
     
   tags = {
     Name = "AppServer_Instance"
