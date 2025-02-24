@@ -63,7 +63,7 @@ resource "aws_instance" "app_server_instance" {
   }
 }
 
-resource "aws_ebs_volume" "Terraform_Volume" {
+resource "aws_ebs_volume" "instamnce_storage" {
   availability_zone = "ap-south-1a" 
   size              = 8            # Specify the size of the volume in GiB
 
@@ -71,8 +71,16 @@ resource "aws_ebs_volume" "Terraform_Volume" {
     Name = "AppServer_Instance_EBS"
   }
 }
+
+resource "aws_volume_attachment" "ebs_attachment_to_ec2" {
+  device_name = "/dev/sdh"
+  volume_id   = aws_ebs_volume.instamnce_storage.id
+  instance_id = aws_instance.app_server_instance.id
+}
+
 resource "aws_vpc" "app_server_vpc" {
   cidr_block = "10.0.0.0/16"
+  
   tags = {
     Name = "AppServer_VPC"
   }
@@ -97,6 +105,31 @@ resource "aws_network_interface" "app_server_nic" {
   }
 }
 
+resource "aws_security_group" "vpc_security_group" {
+  name        = "Allow_HTTP_HTTPS_SSH"
+  description = "Allow TLS inbound traffic and all outbound traffic"
+  vpc_id      = aws_vpc.app_server_vpc.id
+
+  tags = {
+    Name = "Allow_HTTP_HTTPS_SSH"
+  }
+}
+
+resource "aws_security_group_rule" "allow_ssh" {
+  security_group_id = aws_security_group.vpc_security_group.id
+  cidr_blocks = [ "0.0.0.0/0" ]
+  from_port = 22
+  to_port =  22
+  protocol = "tcp"
+}
+
+resource "aws_security_group_rule" "allow_http" {
+  security_group_id = aws_security_group.vpc_security_group.id
+  cidr_blocks = [ "0.0.0.0/0" ]
+  from_port = 80
+  to_port = 80
+  protocol = "tcp"
+}
 output "AppServer_Instance_ARN" {
   value = aws_instance.app_server_instance.arn
 }
