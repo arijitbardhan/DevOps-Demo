@@ -10,7 +10,7 @@ terraform {
 }
 
 provider "aws" {
-  region  = "ap-south-1"
+  region  = var.region
   access_key = var.access_key
   secret_key = var.secret_key
 }
@@ -33,67 +33,66 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_key_pair" "app_server_instance_key" {
-  key_name   = "AppServer_Instance_Key"
+  #key_name = concat(var.instance_name, "_key_pair")
+  key_name   = "${var.instance_name}_key"
   public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDjjRLbp1E33tjqSgvJdPy0d0O0skPuUuUHg98u4EDoYR5J1B5MLjiTao1AAtdngilUxHv7bXHbVSJCEbH9/6+Xs3gug8TThhuNfqcDt4r/SxKVshiaDd/iK1pFFo0YxXc47n0111zuanhKoDt/pUCrJ1h84lfoBEp7cUBnlrYa5vi1qApMOffHmlOwdMihJhIVXq+Y0br7rRMirAgfZtTn8Qeg3xnxRtrrFmKIdvvegnY86pTHCAnqiYWWytbKEazXopAJcR+kT6MHLEsco/w7ImP/3pu8yIqQYjjvD8ynyw17L663AIryuEPG4a623xLcKsR4GdTZl5mAwJpmnQBrIYfOhziW6EXNXCVUUbFfVPtMMtJa+xHqAmBYYKe/t71Afa0iB35liP+lYGJ+IsM980JbGAkQLQWPEr/iv67hhhMv8FlAsnVJciGwenWYDGZ0wR8vUrHrmAOdsnynFhUP9etuOn+s6iPAL40VzUrqRlUdX8XjmQg2Qr2a5zPbNV/x/+I7NIZk3RLQVFlHNSdOOsl6tNYYjJE+n4s0oejlBG+sxS53IJrHgCfmKIPkl9M0pS/BjTix3fg8OeFzmXKIuAO53dObvbD7WO2DH/cASpHLlyxfiH/sbiYmqqonKhEzJL3wb54FrwpETQ3P6utFXedcWLh0/lpN/HSF7d0E9Q== ubuntu@ip-172-31-46-136"
 }
 
 resource "aws_instance" "app_server_instance" {
   ami           = data.aws_ami.ubuntu.id
-  instance_type = "t2.micro"
-  #subnet_id     = aws_subnet.app_server_subnet.id
+  instance_type = var.instance_type
     
   tags = {
-    Name = "AppServer_Instance"
-    
+    Name = var.instance_name
   }
+
   key_name = aws_key_pair.app_server_instance_key.key_name
-  associate_public_ip_address = true
 
   # defining storage
   root_block_device {
-    delete_on_termination = true
-    encrypted             = true
-    volume_size           = 8
-    volume_type           = "gp2"
+    delete_on_termination = var.root_block_device_delete_on_termination
+    encrypted             = var.root_block_device_encrypted
+    volume_size           = var.root_block_device_volume_size
+    volume_type           = var.root_block_device_volume_type
   }
 
   network_interface {
     #delete_on_termination = true
-    device_index          = 0
+    device_index          = var.ec2_network_interface_device_index
     network_interface_id  = aws_network_interface.app_server_nic.id
   }
 }
 
-resource "aws_ebs_volume" "instamnce_storage" {
-  availability_zone = "ap-south-1a" 
-  size              = 8            # Specify the size of the volume in GiB
+resource "aws_ebs_volume" "instance_storage" {
+  availability_zone = var.instance_storage_availability_zone 
+  size              = var.instance_storage_size            # Specify the size of the volume in GiB
 
   tags = {
-    Name = "AppServer_Instance_EBS"
+    Name = "${var.instance_name}_EBS"
   }
 }
 
 resource "aws_volume_attachment" "ebs_attachment_to_ec2" {
-  device_name = "/dev/sdh"
-  volume_id   = aws_ebs_volume.instamnce_storage.id
+  device_name = var.ebs_attachment_to_ec2_device_name
+  volume_id   = aws_ebs_volume.instance_storage.id
   instance_id = aws_instance.app_server_instance.id
 }
 
 resource "aws_vpc" "app_server_vpc" {
-  cidr_block = "10.0.0.0/16"
+  cidr_block = var.app_server_vpc_cidr_block
   
   tags = {
-    Name = "AppServer_VPC"
+    Name = "${var.instance_name}_VPC"
   }
 }
 
 resource "aws_subnet" "app_server_subnet" {
   vpc_id            = aws_vpc.app_server_vpc.id
-  cidr_block        = "10.0.0.0/24"
+  cidr_block        = var.app_server_subnet_cidr_block
   availability_zone = "ap-south-1a"
-
+  map_public_ip_on_launch = var.app_server_subnet_public_ip
   tags = {
-    Name = "AppServer_Subnet"
+    Name = "${var.instance_name}_Subnet"
   }
 }
 
@@ -102,7 +101,7 @@ resource "aws_network_interface" "app_server_nic" {
   private_ips = ["10.0.0.100"]
   
   tags = {
-    Name = "AppServer_NetworkInterfaceCard"
+    Name = "${var.instance_name}_NetworkInterfaceCard"
   }
 }
 
@@ -135,14 +134,12 @@ resource "aws_security_group_rule" "allow_http" {
 }
 
 resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4" {
-  #type              = "egress"
   security_group_id = aws_security_group.vpc_security_group.id
   cidr_ipv4         = "0.0.0.0/0"
   ip_protocol       = "-1" # semantically equivalent to all ports
 }
 
 resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv6" {
-  # type              = "egress"
   security_group_id = aws_security_group.vpc_security_group.id
   cidr_ipv6         = "::/0"
   ip_protocol       = "-1" # semantically equivalent to all ports
