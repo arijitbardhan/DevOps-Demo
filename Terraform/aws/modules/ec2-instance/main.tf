@@ -44,7 +44,7 @@ resource "aws_instance" "app_server_instance" {
 
   network_interface {
     #delete_on_termination = true
-    device_index          = var.ec2_network_interface_device_index
+    device_index          = var.device_index
     network_interface_id  = var.network_interface_id
   }
 }
