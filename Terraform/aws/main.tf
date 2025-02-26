@@ -63,7 +63,7 @@ module "storage" {
   size              = var.instance_storage_size
   instance_name     = var.instance_name
   device_name       = var.ebs_attachment_to_ec2_device_name
-  instance_id       = module.ec2_instance.instance_id
+  instance_id       = module.ec2_instance.ec2_instance_id
 }
 
 module "network" {
