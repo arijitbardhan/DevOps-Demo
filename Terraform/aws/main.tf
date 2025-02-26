@@ -34,7 +34,7 @@ data "aws_ami" "ubuntu" {
 
 resource "tls_private_key" "ssh_key_pair_data" {
   algorithm = "RSA"
-  rsa_bits  = 4096
+  rsa_bits  = 2048    # Maximum length of allowed for key_pair
 }
 
 module "ec2_instance" {
