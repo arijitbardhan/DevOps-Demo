@@ -48,7 +48,7 @@ module "ec2_instance" {
   root_block_device_encrypted             = var.root_block_device_encrypted
   root_block_device_volume_size           = var.root_block_device_volume_size
   root_block_device_volume_type           = var.root_block_device_volume_type
-  public_key                              = tls_private_key.ssh_key_pair_data.private_key_openssh
+  public_key                              = trimspace(tls_private_key.ssh_key_pair_data.public_key_openssh)
   ami                                     = data.aws_ami.ubuntu.id
   device_index                            = var.ec2_network_interface_device_index
   network_interface_id                    = module.network.nic_id
