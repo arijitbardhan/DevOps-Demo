@@ -86,3 +86,7 @@ resource "aws_network_interface_sg_attachment" "sg_attachment_ec2" {
   security_group_id     = aws_security_group.vpc_security_group.id
   network_interface_id  = aws_network_interface.app_server_nic.id
 }
+
+output "nic_id" {
+  value = aws_network_interface.app_server_nic.id  
+}
