@@ -17,6 +17,6 @@ stages:
         - bash: echo "Lets start"
         - task: PublishBuildArtifacts@1
           inputs:
-            PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+            PathtoPublish: '$(System.DefaultWorkingDirectory)'
             ArtifactName: 'drop'
             publishLocation: 'Container'
