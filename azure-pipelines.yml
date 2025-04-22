@@ -3,8 +3,8 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
-trigger:
-- develop
+#trigger:
+#- develop
 
 pool:
   vmImage: ubuntu-latest
@@ -17,6 +17,6 @@ stages:
         - bash: echo "Lets start"
         - task: PublishBuildArtifacts@1
           inputs:
-            PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+            PathtoPublish: '$(System.DefaultWorkingDirectory)'
             ArtifactName: 'drop'
             publishLocation: 'Container'
