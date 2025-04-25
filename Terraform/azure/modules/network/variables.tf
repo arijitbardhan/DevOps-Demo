@@ -17,3 +17,11 @@ variable "azure_virtual_network_address_space" {
 variable "azure_subnet_address_space" {
   type = map(string)
 }
+
+variable "azure_network_interface_name" {
+  type = string
+}
+
+variable "azure_security_group_name" {
+  type = string
+}
