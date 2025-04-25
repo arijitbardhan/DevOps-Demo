@@ -55,12 +55,12 @@ resource "aws_security_group" "vpc_security_group" {
     Name = "Allow_Ingress_Ports"
   }
 
-  dynamic_block "ingress" {
+  dynamic "ingress" {
     for_each = each.var.security_group_ingress_ports
     content {
-      protocol = "tcp"
-      from_port = ingress.value[0]
-      to_port   = ingress.value[1]
+      protocol    = "tcp"
+      from_port   = ingress.value[0]
+      to_port     = ingress.value[1]
       cidr_blocks = ingress.value[2]
     }
   }
