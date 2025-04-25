@@ -15,6 +15,11 @@ provider "aws" {
   secret_key = var.secret_key
 }
 
+
+data "aws_availability_zones" "available" {
+  state = available
+}
+
 resource "aws_vpc" "app_server_vpc" {
   cidr_block = var.vpc_cidr_block
   
@@ -23,15 +28,11 @@ resource "aws_vpc" "app_server_vpc" {
   }
 }
 
-data "aws_availability_zones" "available" {
-  name = "ap-south-1a"
-}
-
 resource "aws_subnet" "app_server_subnet" {
   vpc_id            = aws_vpc.app_server_vpc.id
   cidr_block        = cidrsubnet(var.vpc_cidr_block, 8, 15)
   #cidr_block        = var.subnet_cidr_block
-  availability_zone = data.aws_availability_zones.available.name
+  availability_zone = data.aws_availability_zones.available.names[0]
   map_public_ip_on_launch = var.map_public_ip_on_launch
   tags = {
     Name = "${var.instance_name}_Subnet"
