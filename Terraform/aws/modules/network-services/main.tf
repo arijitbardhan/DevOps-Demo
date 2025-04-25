@@ -17,7 +17,7 @@ provider "aws" {
 
 
 data "aws_availability_zones" "available" {
-  state = available
+  state = "available"
 }
 
 resource "aws_vpc" "app_server_vpc" {
