@@ -23,13 +23,15 @@ resource "aws_vpc" "app_server_vpc" {
   }
 }
 
-data "aws_availability_zones" "available" {}
+data "aws_availability_zones" "available" {
+  name = "ap-south-1a"
+}
 
 resource "aws_subnet" "app_server_subnet" {
   vpc_id            = aws_vpc.app_server_vpc.id
   cidr_block        = cidrsubnet(var.vpc_cidr_block, 8, 15)
   #cidr_block        = var.subnet_cidr_block
-  availability_zone = data.aws_availability_zones.available
+  availability_zone = data.aws_availability_zones.available.name
   map_public_ip_on_launch = var.map_public_ip_on_launch
   tags = {
     Name = "${var.instance_name}_Subnet"
