@@ -56,7 +56,7 @@ resource "aws_security_group" "vpc_security_group" {
   }
 
   dynamic "ingress" {
-    for_each = each.var.security_group_ingress_ports
+    for_each = var.security_group_ingress_ports
     content {
       protocol    = "tcp"
       from_port   = ingress.value[0]
