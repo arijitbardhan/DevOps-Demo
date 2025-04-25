@@ -1,21 +1,21 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 4.16"
-    }
-  }
+# terraform {
+#   required_providers {
+#     aws = {
+#       source  = "hashicorp/aws"
+#       version = "~> 4.16"
+#     }
+#   }
 
-  required_version = ">= 1.2.0"
-}
+#   required_version = ">= 1.2.0"
+# }
 
-provider "aws" {
-  region  = var.region
-  access_key = var.access_key
-  secret_key = var.secret_key
-}
+# provider "aws" {
+#   region  = var.region
+#   access_key = var.access_key
+#   secret_key = var.secret_key
+# }
 
-
+# Generating an available AZ from region
 data "aws_availability_zones" "available" {
   state = "available"
 }
@@ -29,10 +29,9 @@ resource "aws_vpc" "app_server_vpc" {
 }
 
 resource "aws_subnet" "app_server_subnet" {
-  vpc_id            = aws_vpc.app_server_vpc.id
-  cidr_block        = cidrsubnet(var.vpc_cidr_block, 8, 15)
-  #cidr_block        = var.subnet_cidr_block
-  availability_zone = data.aws_availability_zones.available.names[0]
+  vpc_id                  = aws_vpc.app_server_vpc.id
+  cidr_block              = cidrsubnet(var.vpc_cidr_block, 8, 15)
+  availability_zone       = data.aws_availability_zones.available.names[0]
   map_public_ip_on_launch = var.map_public_ip_on_launch
   tags = {
     Name = "${var.instance_name}_Subnet"
@@ -42,7 +41,6 @@ resource "aws_subnet" "app_server_subnet" {
 resource "aws_network_interface" "app_server_nic" {
   subnet_id   = aws_subnet.app_server_subnet.id
   private_ips = [ cidrhost(aws_subnet.app_server_subnet.cidr_block, 10) ]
-  #private_ips = ["10.0.0.100"]
   
   tags = {
     Name = "${var.instance_name}_NetworkInterfaceCard"
@@ -68,25 +66,6 @@ resource "aws_security_group" "vpc_security_group" {
     }
   }
 }
-
-# resource "aws_security_group_rule" "allow_ssh" {
-#   type              = "ingress"
-#   security_group_id = aws_security_group.vpc_security_group.id
-#   cidr_blocks       = [ "0.0.0.0/0" ]
-#   from_port         = 22
-#   to_port           = 22
-#   protocol          = "tcp"
-
-# }
-
-# resource "aws_security_group_rule" "allow_http" {
-#   type              = "ingress"
-#   security_group_id = aws_security_group.vpc_security_group.id
-#   cidr_blocks       = [ aws_vpc.app_server_vpc.cidr_block ]
-#   from_port         = 80
-#   to_port           = 80
-#   protocol          = "tcp"
-# }
 
 resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4" {
   security_group_id = aws_security_group.vpc_security_group.id
