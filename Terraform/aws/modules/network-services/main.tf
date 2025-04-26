@@ -93,6 +93,11 @@ resource "aws_route_table" "vpc_route_table" {
   }
 }
 
+resource "aws_route_table_association" "route_table_to_subnet" {
+  subnet_id       = aws_subnet.app_server_subnet.id
+  route_table_id  = aws_route_table.vpc_route_table.id
+}
+
 output "nic_id" {
   value = aws_network_interface.app_server_nic.id  
 }
