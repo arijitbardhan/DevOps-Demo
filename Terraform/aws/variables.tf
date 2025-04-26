@@ -10,10 +10,6 @@ variable "region" {
   type = string
 }
 
-variable "public_key" {
-  type = string
-}
-
 variable "instance_type" {
   type = string
 }
@@ -60,11 +56,6 @@ variable "ebs_attachment_to_ec2_device_name" {
 variable "app_server_vpc_cidr_block" {
   type    = string
   default = "10.0.0.0/16"
-}
-
-variable "app_server_subnet_cidr_block" {
-  type    = string
-  default = "10.0.0.0/24"
 }
 
 variable "app_server_subnet_public_ip" {

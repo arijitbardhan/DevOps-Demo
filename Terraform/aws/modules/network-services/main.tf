@@ -1,14 +1,3 @@
-# terraform {
-#   required_providers {
-#     aws = {
-#       source  = "hashicorp/aws"
-#       version = "~> 4.16"
-#     }
-#   }
-
-#   required_version = ">= 1.2.0"
-# }
-
 provider "aws" {
   region  = var.region
   access_key = var.access_key
@@ -82,6 +71,26 @@ resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv6" {
 resource "aws_network_interface_sg_attachment" "sg_attachment_ec2" {
   security_group_id     = aws_security_group.vpc_security_group.id
   network_interface_id  = aws_network_interface.app_server_nic.id
+}
+
+resource "aws_internet_gateway" "vpc_internet_gateway" {
+  vpc_id = aws_vpc.app_server_vpc.id
+  tags = {
+    "name" = "${var.instance_name}_IG"
+  }
+}
+
+resource "aws_route_table" "vpc_route_table" {
+  vpc_id = aws_vpc.app_server_vpc.id
+
+  route {
+    cidr_block = "${var.vpc_cidr_block}"
+    gateway_id = aws_internet_gateway.vpc_internet_gateway.id
+  }
+
+  tags = {
+    Name = "${var.instance_name}_RB"
+  }
 }
 
 output "nic_id" {
