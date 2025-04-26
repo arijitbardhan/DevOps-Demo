@@ -73,6 +73,5 @@ module "network" {
   region                  = var.region
   vpc_cidr_block          = var.app_server_vpc_cidr_block
   instance_name           = var.instance_name
-  subnet_cidr_block       = var.app_server_subnet_cidr_block
   map_public_ip_on_launch = var.app_server_subnet_public_ip
 }
