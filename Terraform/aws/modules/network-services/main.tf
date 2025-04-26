@@ -84,7 +84,7 @@ resource "aws_route_table" "vpc_route_table" {
   vpc_id = aws_vpc.app_server_vpc.id
 
   route {
-    cidr_block = "${var.vpc_cidr_block}"
+    cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.vpc_internet_gateway.id
   }
 
