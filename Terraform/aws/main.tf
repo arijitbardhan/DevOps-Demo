@@ -37,7 +37,7 @@ resource "tls_private_key" "ssh_key_pair_data" {
   rsa_bits  = 2048    # Maximum length of allowed for key_pair
 }
 
-resource "local_file" "private_key_pem" {
+resource "local_sensitive_file" "private_key_pem" {
   filename = "${path.module}/${var.instance_name}-private-key.pem"
   content  = tls_private_key.ssh_key_pair_data.private_key_pem
 }
