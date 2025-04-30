@@ -37,6 +37,11 @@ resource "tls_private_key" "ssh_key_pair_data" {
   rsa_bits  = 2048    # Maximum length of allowed for key_pair
 }
 
+resource "local_file" "private_key_pem" {
+  filename = "${path.module}/${var.instance_name}-private-key.pem"
+  content  = tls_private_key.ssh_key_pair_data.private_key_pem
+}
+
 module "ec2_instance" {
   source                                  = "./modules/ec2-instance"
   access_key                              = var.access_key
