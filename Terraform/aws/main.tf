@@ -38,8 +38,8 @@ resource "tls_private_key" "ssh_key_pair_data" {
 }
 
 resource "local_sensitive_file" "private_key_pem" {
-  filename = "${path.module}/${var.instance_name}-private-key.pem"
-  content  = tls_private_key.ssh_key_pair_data.private_key_pem
+  filename        = "${path.module}/${var.instance_name}-private-key.pem"
+  content         = tls_private_key.ssh_key_pair_data.private_key_pem
   file_permission = "0700"
 }
 
@@ -73,7 +73,7 @@ module "storage" {
 }
 
 module "network" {
-  source = "./modules/network-services"
+  source                  = "./modules/network-services"
   access_key              = var.access_key
   secret_key              = var.secret_key
   region                  = var.region
