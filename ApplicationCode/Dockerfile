@@ -7,7 +7,7 @@ WORKDIR /usr/local/tomcat
 
 # Copy your HTML application into the webapps directory
 # Replace 'your-app' with the name of your application folder
-COPY index.html scripts.js styles.css /usr/local/tomcat/webapps/ApplicationCode/
+COPY index.html script.js styles.css /usr/local/tomcat/webapps/ApplicationCode/
 
 # Expose the default Tomcat port
 EXPOSE 8080
