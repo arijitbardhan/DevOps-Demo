@@ -1,5 +1,6 @@
 # Use the official Tomcat 11.0.1 image as the base
-FROM tomcat:11.0.1-jdk17
+FROM tomcat:11.0.1-jre21-temurin-noble
+
 
 # Set the working directory inside the container
 WORKDIR /usr/local/tomcat
