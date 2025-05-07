@@ -11,7 +11,7 @@ COPY index.html script.js styles.css  WEB-INF/ /
 
 RUN apt-get update && apt-get install -y zip && zip -r WebApp.zip *
 
-RUN cp WebApp.zip /usr/local/tomcat/webapps/WebApp.war && rm index.html script.js styles.css  WEB-INF/
+RUN cp WebApp.zip /usr/local/tomcat/webapps/WebApp.war
 # Expose the default Tomcat port
 EXPOSE 8080
 
