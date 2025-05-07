@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y zip
 COPY index.html script.js styles.css  WEB-INF/ /usr/local/tomcat/
 
 COPY server.xml /usr/local/tomcat/conf/server.xml 
-COPY /home/ubuntu/keystore.jks /usr/local/tomcat/conf/keystore.jks
+COPY keystore.jks /usr/local/tomcat/conf/keystore.jks
 
 RUN mkdir WEB-INF && cp web.xml WEB-INF/web.xml 
 
