@@ -18,7 +18,7 @@ RUN cp WebApp.zip /usr/local/tomcat/webapps/WebApp.war
 
 RUN rm -r WebApp.zip index.html script.js styles.css WEB-INF/ 
 # Expose the default Tomcat port
-EXPOSE 8080 8443
+EXPOSE 8080 8443 443
 
 # Start Tomcat
 CMD ["catalina.sh", "run"]
