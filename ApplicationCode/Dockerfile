@@ -9,7 +9,7 @@ WORKDIR /usr/local/tomcat
 # Replace 'your-app' with the name of your application folder
 COPY index.html script.js styles.css  WEB-INF/ /
 
-RUN zip -r WebApp.zip *
+RUN apt-get install zip && zip -r WebApp.zip *
 
 RUN cp WebApp.zip /usr/local/tomcat/webapps/WebApp.war
 # Expose the default Tomcat port
