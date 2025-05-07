@@ -94,7 +94,7 @@
                maxThreads="150" SSLEnabled="true"
                maxParameterCount="1000">
         <SSLHostConfig>
-            <Certificate certificateKeystoreFile="keystore.jks"
+            <Certificate certificateKeystoreFile="conf/keystore.jks"
                          certificateKeystorePassword="Welcome@123" type="RSA" />
         </SSLHostConfig>
     </Connector>
