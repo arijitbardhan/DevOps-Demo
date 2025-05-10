@@ -52,16 +52,13 @@ document.addEventListener('DOMContentLoaded', function() {
     function fetchNearestPlaces(lat, lon) {
         // Example using Google Places API (you need to replace 'YOUR_API_KEY' with your actual Google API key)
         var YOUR_API_KEY = 'AIzaSyB685j0ggI7R-1pRn7UdOLc9JpRJjMuvBw';
-        const proxyurl = "https://cors-anywhere.herokuapp.com/";
         const placesUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lon}&radius=100000&type=airport&key=${YOUR_API_KEY}&no-cors=true`;
     
-        fetch(proxyurl + placesUrl)
+        fetch(placesUrl)
             .then(response => response.json())
             .then(data => {
                 const airportName = data.results[0]?.name ?? 'Not found';
-                document.getElementById('airport-name').textContent = airportName
-            .then(contents => console.log(contents))
-            .catch(() => console.log("Can’t access " + url + " response. Blocked by browser?"))
+                document.getElementById('airport-name').textContent = airportName;
             });
     
         // Repeat for railway station with type=transit_station
